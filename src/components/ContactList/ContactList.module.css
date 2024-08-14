@@ -1,0 +1,7 @@
+.contacts {
+}
+.contactsItem {
+}
+.contactsItem:not(:last-child) {
+  margin-bottom: 20px;
+}

@@ -1,0 +1,30 @@
+.contact {
+  width: 300px;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  align-items: center;
+  border: 1px solid black;
+  border-radius: 4px;
+}
+.contactColumn {
+}
+.contactText {
+  display: flex;
+  align-items: center;
+}
+.contactText:not(:last-child) {
+  margin-bottom: 5px;
+}
+.contactIcon {
+  margin-right: 10px;
+}
+.contactBtn {
+  padding: 5px 10px;
+  background-color: rgb(235, 235, 235);
+  border: 1px solid black;
+  border-radius: 2px;
+}
+.contactBtn:hover {
+  background-color: rgb(194, 194, 194);
+}

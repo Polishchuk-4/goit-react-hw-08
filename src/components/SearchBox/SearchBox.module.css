@@ -1,0 +1,14 @@
+.searchBox {
+}
+.searchBoxLabel {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  font-size: 20px;
+}
+.searchBoxInput {
+  width: 320px;
+  height: 35px;
+  border: 1px solid black;
+  border-radius: 3px;
+}
