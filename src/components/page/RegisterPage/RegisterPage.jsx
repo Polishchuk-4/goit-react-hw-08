@@ -1,7 +1,7 @@
 import { Field, Form, Formik } from "formik";
 import css from "./RegisterPage.module.css";
 import { useId } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { registerThunk } from "../../../redux/auth/operations";
 
@@ -16,17 +16,10 @@ export default function RegisterPage() {
   const passwordInputId = useId();
   const nameInputId = useId();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const handleSubmit = (values, actions) => {
-    dispatch(registerThunk(values))
-      .unwrap()
-      .then(() => {
-        navigate("/login", { replace: true });
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    dispatch(registerThunk(values));
+
     actions.resetForm();
   };
   return (

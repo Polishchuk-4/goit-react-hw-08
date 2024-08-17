@@ -22,9 +22,9 @@ export default function LoginPage() {
     dispatch(loginThunk(values));
     actions.resetForm();
   };
-  if (isLoggedIn) {
-    return <Navigate to="/" />;
-  }
+  // if (isLoggedIn) {
+  //   return <Navigate to="/" />;
+  // }
   return (
     <section className={css.formPage}>
       <Formik initialValues={initialValues} onSubmit={handleSubmit}>
