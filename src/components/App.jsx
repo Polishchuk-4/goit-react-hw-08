@@ -13,6 +13,12 @@ const RegisterPage = lazy(() => import("./page/RegisterPage/RegisterPage.jsx"));
 const ContactsPage = lazy(() => import("./page/ContactsPage/ContactsPage"));
 
 export default function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getMeThunk());
+  }, [dispatch]);
+
   return (
     <Layout>
       <Routes>
