@@ -1,7 +1,12 @@
 import { lazy, Suspense, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { Routes, Route } from "react-router-dom";
+import { getMeThunk } from "../redux/auth/operations.js";
 
-const Layout = lazy(() => import("./Layout/Layout.jsx"));
+import Layout from "./Layout.jsx";
+import PrivateRoute from "./PrivateRoute.jsx";
+import RestrictedRoute from "./RestrictedRoute.jsx";
+
 const HomePage = lazy(() => import("./page/HomePage/HomePage.jsx"));
 const LoginPage = lazy(() => import("./page/LoginPage/LoginPage.jsx"));
 const RegisterPage = lazy(() => import("./page/RegisterPage/RegisterPage.jsx"));
@@ -9,15 +14,24 @@ const ContactsPage = lazy(() => import("./page/ContactsPage/ContactsPage"));
 
 export default function App() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Layout>
       <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route path="/home" element={<HomePage />} />
-          <Route path="/contacts" element={<ContactsPage />} />
-          <Route index path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-        </Route>
+        <Route path="/" element={<HomePage />} />
+        <Route
+          path="/contacts"
+          element={<PrivateRoute redirectTo="/" component={<ContactsPage />} />}
+        />
+        <Route
+          path="/login"
+          element={<RestrictedRoute redirectTo="/" component={<LoginPage />} />}
+        />
+        <Route
+          path="/register"
+          element={
+            <RestrictedRoute redirectTo="/" component={<RegisterPage />} />
+          }
+        />
       </Routes>
-    </Suspense>
+    </Layout>
   );
 }

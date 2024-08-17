@@ -1,12 +1,11 @@
-.navigation {
+.row {
   display: flex;
   column-gap: 20px;
 }
-
 .link {
   color: black;
 }
 .active {
-  color: blue;
   font-weight: 600;
+  color: blue;
 }

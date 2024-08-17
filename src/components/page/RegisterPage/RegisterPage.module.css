@@ -1,4 +1,6 @@
 .formPage {
+  width: fit-content;
+  margin: 100px auto;
 }
 .form {
   display: flex;

@@ -1,0 +1,14 @@
+.row {
+  display: flex;
+  column-gap: 20px;
+}
+.title {
+}
+.btn {
+  background-color: rgb(216, 210, 210);
+  width: fit-content;
+  padding: 5px 10px;
+  border: 1px solid black;
+  border-radius: 5px;
+  font-size: 16px;
+}
