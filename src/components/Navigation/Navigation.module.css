@@ -1,20 +1,31 @@
 .navigation {
   width: 100%;
+  background-color: rgb(172, 114, 114);
+}
+.navigationList {
   padding-bottom: 20px;
   display: flex;
   justify-content: flex-end;
+  align-items: center;
+  column-gap: 20px;
   border-bottom: 2px solid black;
+}
+.navigationItemMargin {
+  margin-right: auto;
+  color: red;
 }
 .navigationLink {
   color: black;
   font-weight: 600;
 }
-.navigationLink:nth-child(2) {
-  margin-right: 20px;
-}
-.navigationLink:first-child {
-  margin-right: auto;
-}
 .active {
   color: blue;
+}
+.navigationLogout {
+  background-color: rgb(216, 210, 210);
+  width: fit-content;
+  padding: 5px 10px;
+  border: 1px solid black;
+  border-radius: 5px;
+  font-size: 16px;
 }
