@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchContacts, addContact, deleteContact } from "./operations";
+import { logoutThunk } from "../auth/operations";
 
-const constactsInitialState = {
+const contactsInitialState = {
   items: [],
   isLoading: false,
   error: false,
@@ -18,7 +19,7 @@ const handleRejected = (state, action) => {
 
 const contactsSlice = createSlice({
   name: "contacts",
-  initialState: constactsInitialState,
+  initialState: contactsInitialState,
   extraReducers: (builder) => {
     builder
       .addCase(fetchContacts.pending, handlePending)
@@ -44,7 +45,11 @@ const contactsSlice = createSlice({
         );
         state.items.splice(index, 1);
       })
-      .addCase(deleteContact.rejected, handleRejected);
+      .addCase(deleteContact.rejected, handleRejected)
+      .addCase(logoutThunk.pending, (state, action) => {})
+      .addCase(logoutThunk.fulfilled, () => {
+        return contactsInitialState;
+      });
   },
 });
 

@@ -14,9 +14,9 @@ export default function App() {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
-  useEffect(() => {
-    dispatch(fetchContacts());
-  }, [isLoggedIn]);
+  // useEffect(() => {
+  //   dispatch(fetchContacts());
+  // }, [isLoggedIn]);
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
