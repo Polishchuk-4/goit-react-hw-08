@@ -18,8 +18,14 @@ export default function Navigation() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // navigate("/login", { replace: true });
-    dispatch(logoutThunk());
+    dispatch(logoutThunk())
+      .unwrap()
+      .then(() => {
+        navigate("/login", { replace: true });
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
   return (
     <nav className={css.navigation}>
