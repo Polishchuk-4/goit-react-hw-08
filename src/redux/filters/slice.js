@@ -9,6 +9,7 @@ const filtersSlice = createSlice({
   initialState: filtersInitialState,
   reducers: {
     setNameFilter(state, action) {
+      console.log(state);
       state.name = action.payload;
     },
   },

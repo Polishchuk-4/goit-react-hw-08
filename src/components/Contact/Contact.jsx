@@ -3,12 +3,26 @@ import { FaUser } from "react-icons/fa";
 import { BsFillTelephoneFill } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import { deleteContact } from "../../redux/contacts/operations";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Contact({ contact: { id, name, number } }) {
   const dispatch = useDispatch();
 
   function handleDelete(userId) {
-    dispatch(deleteContact(userId));
+    dispatch(deleteContact(userId))
+      .unwrap()
+      .then(() => {
+        toast("Successfully delete contact", {
+          icon: "✅",
+          duration: 1000,
+        });
+      })
+      .catch(() => {
+        toast("Sorry, not successfully delete contact", {
+          icon: "❌",
+          duration: 1000,
+        });
+      });
   }
 
   return (
@@ -26,6 +40,7 @@ export default function Contact({ contact: { id, name, number } }) {
       <button className={style.contactBtn} onClick={() => handleDelete(id)}>
         Delete
       </button>
+      <Toaster />
     </div>
   );
 }

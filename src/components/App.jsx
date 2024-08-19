@@ -1,7 +1,7 @@
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Routes, Route } from "react-router-dom";
-import { getMeThunk } from "../redux/auth/operations.js";
+import { refreshUserThunk } from "../redux/auth/operations.js";
 
 import Layout from "./Layout.jsx";
 import PrivateRoute from "./PrivateRoute.jsx";
@@ -16,7 +16,7 @@ export default function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getMeThunk());
+    dispatch(refreshUserThunk());
   }, [dispatch]);
 
   return (

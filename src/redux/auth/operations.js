@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { clearToken, goitApi, setToken } from "../../config/goitApi";
 
 export const registerThunk = createAsyncThunk(
-  "register",
+  "auth/register",
   async (credentials, thunkApi) => {
     try {
       const { data } = await goitApi.post("users/signup", credentials);
@@ -15,7 +15,7 @@ export const registerThunk = createAsyncThunk(
 );
 
 export const loginThunk = createAsyncThunk(
-  "login",
+  "auth/login",
   async (credentials, thunkApi) => {
     try {
       const { data } = await goitApi.post("users/login", credentials);
@@ -28,7 +28,7 @@ export const loginThunk = createAsyncThunk(
 );
 
 export const logoutThunk = createAsyncThunk(
-  "logout",
+  "auth/logout",
   async (credentials, thunkApi) => {
     try {
       const { data } = await goitApi.post("users/logout");
@@ -40,17 +40,20 @@ export const logoutThunk = createAsyncThunk(
   }
 );
 
-export const getMeThunk = createAsyncThunk("getMe", async (_, thunkApi) => {
-  const savedToken = thunkApi.getState().auth.token;
-  if (savedToken === null) {
-    return thunkApi.rejectWithValue("token is not exist!");
+export const refreshUserThunk = createAsyncThunk(
+  "auth/refresh",
+  async (_, thunkApi) => {
+    const savedToken = thunkApi.getState().auth.token;
+    if (savedToken === null) {
+      return thunkApi.rejectWithValue("token is not exist!");
+    }
+    console.log(savedToken);
+    try {
+      setToken(savedToken);
+      const { data } = await goitApi.get("users/current");
+      return data;
+    } catch (e) {
+      return thunkApi.rejectWithValue(e.message);
+    }
   }
-  console.log(savedToken);
-  try {
-    setToken(savedToken);
-    const { data } = await goitApi.get("users/current");
-    return data;
-  } catch (e) {
-    return thunkApi.rejectWithValue(e.message);
-  }
-});
+);
