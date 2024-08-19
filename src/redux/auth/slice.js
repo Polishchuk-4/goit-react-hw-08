@@ -42,8 +42,15 @@ const slice = createSlice({
       .addCase(logoutThunk.rejected, (state, action) => {})
       .addCase(refreshUserThunk.fulfilled, (state, action) => {
         state.isLoggedIn = true;
+        state.isRefreshing = false;
         state.user.name = action.payload.name;
         state.user.email = action.payload.email;
+      })
+      .addCase(refreshUserThunk.pending, (state, action) => {
+        state.isRefreshing = true;
+      })
+      .addCase(refreshUserThunk.rejected, (state, action) => {
+        state.isRefreshing = false;
       });
   },
 });

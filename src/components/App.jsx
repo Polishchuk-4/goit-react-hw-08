@@ -1,11 +1,13 @@
 import { lazy, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route } from "react-router-dom";
 import { refreshUserThunk } from "../redux/auth/operations.js";
 
 import Layout from "./Layout.jsx";
 import PrivateRoute from "./PrivateRoute.jsx";
 import RestrictedRoute from "./RestrictedRoute.jsx";
+import { selectIsRefresh } from "../redux/auth/selectors.js";
+import Loader from "./Loader/Loader.jsx";
 
 const HomePage = lazy(() => import("./page/HomePage/HomePage.jsx"));
 const LoginPage = lazy(() => import("./page/LoginPage/LoginPage.jsx"));
@@ -14,12 +16,15 @@ const ContactsPage = lazy(() => import("./page/ContactsPage/ContactsPage"));
 
 export default function App() {
   const dispatch = useDispatch();
+  const isRefreshing = useSelector(selectIsRefresh);
 
   useEffect(() => {
     dispatch(refreshUserThunk());
   }, [dispatch]);
 
-  return (
+  return isRefreshing ? (
+    <Loader />
+  ) : (
     <Layout>
       <Routes>
         <Route path="/" element={<HomePage />} />
