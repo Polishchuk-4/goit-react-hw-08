@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import ContactForm from "../../ContactForm/ContactForm";
+import AddContactForm from "../../AddContactForm/AddContactForm";
 import ContactList from "../../ContactList/ContactList";
 import SearchBox from "../../SearchBox/SearchBox";
 import Loader from "../../Loader/Loader";
@@ -18,7 +18,7 @@ export default function ContactsPage() {
 
   return (
     <div className={css.container}>
-      <ContactForm />
+      <AddContactForm />
       <SearchBox />
       <ContactList />
       {isLoading && <Loader />}

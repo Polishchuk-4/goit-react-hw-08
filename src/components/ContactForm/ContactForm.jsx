@@ -1,12 +1,15 @@
-import { useId } from "react";
-import { Field, Formik, Form, ErrorMessage } from "formik";
-import { useDispatch } from "react-redux";
-
-import * as Yup from "yup";
-
 import style from "./ContactForm.module.css";
-import { addContact } from "../../redux/contacts/operations";
+import { FaUser } from "react-icons/fa";
+import { CiEdit } from "react-icons/ci";
+import { BsFillTelephoneFill } from "react-icons/bs";
+import { useDispatch } from "react-redux";
+import { editingContact } from "../../redux/contacts/operations";
 import toast, { Toaster } from "react-hot-toast";
+import { useState } from "react";
+import clsx from "clsx";
+import { Field, Formik, Form, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import ModalDelete from "../ModalDelete/ModalDelete";
 
 const FeedbackSchema = Yup.object().shape({
   name: Yup.string()
@@ -20,19 +23,27 @@ const FeedbackSchema = Yup.object().shape({
     .required("Required!"),
 });
 
-const initialValues = {
-  name: "",
-  number: "",
-};
+export default function ContactForm({ contact: { id, name, number } }) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [isOpenModal, setIsOpenModal] = useState(false);
 
-export default function ContactForm() {
+  const openModal = () => setIsOpenModal(true);
+  const closeModal = () => setIsOpenModal(false);
+
   const dispatch = useDispatch();
 
-  const nameFieldId = useId();
-  const numberFieldId = useId();
+  const initialValues = {
+    name: name,
+    number: number,
+  };
 
-  const handleSubmit = (values, actions) => {
-    dispatch(addContact(values))
+  function handleEdit() {
+    setIsEditing(!isEditing);
+  }
+
+  function handleSubmit(values, actions) {
+    console.log(values);
+    dispatch(editingContact({ id, ...values }))
       .unwrap()
       .then(() => {
         toast("Successfully add contact", {
@@ -46,54 +57,80 @@ export default function ContactForm() {
           duration: 1000,
         });
       });
-
-    actions.resetForm();
-  };
+    setIsEditing(!isEditing);
+  }
 
   return (
-    <Formik
-      initialValues={initialValues}
-      onSubmit={handleSubmit}
-      validationSchema={FeedbackSchema}
-    >
-      <Form className={style.contactForm}>
-        <div className={style.contactFormRow}>
-          <label htmlFor={nameFieldId} className={style.contactFormLabel}>
-            Name
-          </label>
-          <Field
-            type="text"
-            name="name"
-            className={style.contactFormInput}
-            id={nameFieldId}
-          />
-          <ErrorMessage
-            name="name"
-            component="span"
-            className={style.contactFormErrorSpan}
-          />
-        </div>
-        <div className={style.contactFormRow}>
-          <label htmlFor={numberFieldId} className={style.contactFormLabel}>
-            Number
-          </label>
-          <Field
-            type="text"
-            name="number"
-            className={style.contactFormInput}
-            id={numberFieldId}
-          />
-          <ErrorMessage
-            name="number"
-            component="span"
-            className={style.contactFormErrorSpan}
-          />
-        </div>
-        <button type="submit" className={style.contactFormBtn}>
-          Add contact
-        </button>
-        <Toaster />
-      </Form>
-    </Formik>
+    <>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={handleSubmit}
+        validationSchema={FeedbackSchema}
+      >
+        <Form className={style.contact}>
+          <div className={style.contactColumn}>
+            <p className={style.contactText}>
+              <FaUser className={style.contactIcon} />
+              <Field
+                className={clsx(style.input, isEditing && style.inputActive)}
+                type="text"
+                name="name"
+                disabled={!isEditing}
+              />
+            </p>
+            <ErrorMessage
+              name="name"
+              component="span"
+              className={style.contactFormErrorSpan}
+            />
+            <p className={style.contactText}>
+              <BsFillTelephoneFill className={style.contactIcon} />
+              <Field
+                className={clsx(style.input, isEditing && style.inputActive)}
+                type="text"
+                name="number"
+                disabled={!isEditing}
+              />
+            </p>
+            <ErrorMessage
+              name="number"
+              component="span"
+              className={style.contactFormErrorSpan}
+            />
+          </div>
+          <button
+            type="button"
+            className={clsx(style.contactBtn, style.contactBtnEdit)}
+            onClick={() => handleEdit()}
+          >
+            <CiEdit className={style.contactIconEdit} />
+          </button>
+          <button
+            type={isEditing ? "submit" : "button"}
+            className={style.contactBtn}
+            disabled={isEditing}
+            onClick={() => {
+              if (!isEditing) {
+                // handleDelete(id);
+                openModal();
+              }
+              console.log("log");
+            }}
+          >
+            {isEditing ? "Save" : "Delete"}
+          </button>
+
+          <Toaster />
+        </Form>
+      </Formik>
+      {isOpenModal && (
+        <ModalDelete
+          id={id}
+          name={name}
+          number={number}
+          closeModal={closeModal}
+        />
+      )}
+    </>
   );
 }

@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 
 import style from "./ContactList.module.css";
-import Contact from "../Contact/Contact";
+import ContactForm from "../ContactForm/ContactForm";
 import { selectVisibleContacts } from "../../redux/contacts/selectors";
 
 export default function ContactList() {
@@ -10,7 +10,7 @@ export default function ContactList() {
     <ul className={style.contacts}>
       {visibleContacts.map((contact) => (
         <li className={style.contactsItem} key={contact.id}>
-          <Contact contact={contact} />
+          <ContactForm contact={contact} />
         </li>
       ))}
     </ul>

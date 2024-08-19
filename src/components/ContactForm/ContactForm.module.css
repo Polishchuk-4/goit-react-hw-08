@@ -1,41 +1,52 @@
-.contactForm {
+.contact {
   width: fit-content;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  row-gap: 15px;
+  justify-content: space-between;
+  column-gap: 10px;
   padding: 10px;
+  align-items: center;
   border: 1px solid black;
-  border-radius: 6px;
+  border-radius: 4px;
 }
-.contactFormRow {
+.contactColumn {
   display: flex;
   flex-direction: column;
+  row-gap: 5px;
 }
-.contactFormLabel {
-  font-size: 20px;
-}
-.contactFormInput {
-  width: 300px;
-  height: 40px;
-  border: 1px solid black;
-  border-radius: 3px;
-}
-.contactFormBtn {
+.contactText {
   display: flex;
-  justify-content: center;
   align-items: center;
-  height: 40px;
-  width: fit-content;
-  padding: 0px 15px;
-  background-color: rgb(239, 239, 239);
+}
+.contactText:not(:last-child) {
+  margin-bottom: 5px;
+}
+.contactIcon {
+  margin-right: 10px;
+}
+.contactIconEdit {
+  height: 25px;
+  width: 25px;
+}
+.contactBtn {
+  height: 25px;
+  width: 60px;
   border: 1px solid black;
-  border-radius: 3px;
-  color: black;
+  border-radius: 2px;
+}
+.contactBtn:active {
+  background-color: rgb(184, 183, 183);
+}
+.contactBtnEdit {
+  width: 30px;
+}
+.inputActive {
+  padding: 5px;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+.input:disabled {
+  border: none;
 }
 .contactFormErrorSpan {
-  font-size: 18px;
-  margin-top: 10px;
   color: red;
 }

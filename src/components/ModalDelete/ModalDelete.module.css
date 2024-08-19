@@ -1,0 +1,33 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+.modal {
+  padding: 20px;
+  width: 200px;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  background-color: white;
+  border-radius: 10px;
+  border: 1px solid black;
+}
+.btnRow {
+  display: flex;
+  justify-content: space-between;
+  column-gap: 10px;
+}
+.btn {
+  padding: 5px 0px;
+  flex: 1;
+  background-color: rgb(223, 223, 223);
+}
