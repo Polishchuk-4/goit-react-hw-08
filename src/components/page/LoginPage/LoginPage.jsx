@@ -1,7 +1,7 @@
 import { Field, Form, Formik } from "formik";
 import css from "./LoginPage.module.css";
 import { useId } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loginThunk } from "../../../redux/auth/operations";
 import { selectIsLoggedIn } from "../../../redux/auth/selectors";
