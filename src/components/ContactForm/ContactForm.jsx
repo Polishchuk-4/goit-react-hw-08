@@ -2,14 +2,19 @@ import style from "./ContactForm.module.css";
 import { FaUser } from "react-icons/fa";
 import { CiEdit } from "react-icons/ci";
 import { BsFillTelephoneFill } from "react-icons/bs";
-import { useDispatch } from "react-redux";
-import { editingContact } from "../../redux/contacts/operations";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteContact, editingContact } from "../../redux/contacts/operations";
 import toast, { Toaster } from "react-hot-toast";
-import { useState } from "react";
 import clsx from "clsx";
 import { Field, Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import ModalDelete from "../ModalDelete/ModalDelete";
+import {
+  selectEditingStateById,
+  selectEditingStates,
+  selectIsOpenModal,
+} from "../../redux/contacts/selectors";
+import { startEditing, stopEditing } from "../../redux/contacts/slice";
 
 const FeedbackSchema = Yup.object().shape({
   name: Yup.string()
@@ -24,13 +29,12 @@ const FeedbackSchema = Yup.object().shape({
 });
 
 export default function ContactForm({ contact: { id, name, number } }) {
-  const [isEditing, setIsEditing] = useState(false);
-  const [isOpenModal, setIsOpenModal] = useState(false);
-
-  const openModal = () => setIsOpenModal(true);
-  const closeModal = () => setIsOpenModal(false);
-
   const dispatch = useDispatch();
+
+  const isOpenModal = useSelector(selectIsOpenModal);
+  const editingContactState = useSelector((state) =>
+    selectEditingStateById(id)(state)
+  );
 
   const initialValues = {
     name: name,
@@ -38,7 +42,13 @@ export default function ContactForm({ contact: { id, name, number } }) {
   };
 
   function handleEdit() {
-    setIsEditing(!isEditing);
+    if (!editingContactState.editing) {
+      dispatch(startEditing(id));
+      console.log(editingContactState);
+    }
+  }
+  function handleDelete() {
+    dispatch(deleteContact(id));
   }
 
   function handleSubmit(values, actions) {
@@ -57,7 +67,7 @@ export default function ContactForm({ contact: { id, name, number } }) {
           duration: 1000,
         });
       });
-    setIsEditing(!isEditing);
+    dispatch(stopEditing(id));
   }
 
   return (
@@ -72,10 +82,13 @@ export default function ContactForm({ contact: { id, name, number } }) {
             <p className={style.contactText}>
               <FaUser className={style.contactIcon} />
               <Field
-                className={clsx(style.input, isEditing && style.inputActive)}
+                className={clsx(
+                  style.input,
+                  editingContactState.editing && style.inputActive
+                )}
                 type="text"
                 name="name"
-                disabled={!isEditing}
+                disabled={!editingContactState.editing}
               />
             </p>
             <ErrorMessage
@@ -86,10 +99,13 @@ export default function ContactForm({ contact: { id, name, number } }) {
             <p className={style.contactText}>
               <BsFillTelephoneFill className={style.contactIcon} />
               <Field
-                className={clsx(style.input, isEditing && style.inputActive)}
+                className={clsx(
+                  style.input,
+                  editingContactState.editing && style.inputActive
+                )}
                 type="text"
                 name="number"
-                disabled={!isEditing}
+                disabled={!editingContactState.editing}
               />
             </p>
             <ErrorMessage
@@ -106,31 +122,25 @@ export default function ContactForm({ contact: { id, name, number } }) {
             <CiEdit className={style.contactIconEdit} />
           </button>
           <button
-            type={isEditing ? "submit" : "button"}
+            type={editingContactState.editing ? "submit" : "button"}
             className={style.contactBtn}
-            disabled={isEditing}
+            // disabled={!editingContactState.editing}
             onClick={() => {
-              if (!isEditing) {
-                // handleDelete(id);
-                openModal();
+              if (editingContactState.editing) {
+                console.log("btn");
+              } else {
+                handleDelete();
+                console.log("delet");
               }
-              console.log("log");
             }}
           >
-            {isEditing ? "Save" : "Delete"}
+            {editingContactState.editing ? "Save" : "Delete"}
           </button>
 
           <Toaster />
         </Form>
       </Formik>
-      {isOpenModal && (
-        <ModalDelete
-          id={id}
-          name={name}
-          number={number}
-          closeModal={closeModal}
-        />
-      )}
+      {isOpenModal && <ModalDelete id={id} name={name} number={number} />}
     </>
   );
 }

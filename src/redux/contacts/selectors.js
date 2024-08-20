@@ -15,3 +15,11 @@ export const selectVisibleContacts = createSelector(
     );
   }
 );
+
+export const selectIsOpenModal = (state) => state.contacts.isOpenModal;
+
+export const selectEditingStates = (state) => state.contacts.editingStates;
+
+export const selectEditingStateById = (id) => (state) => {
+  return state.contacts.editingStates.find((contact) => contact.id === id);
+};
