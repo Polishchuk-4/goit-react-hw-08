@@ -3,7 +3,7 @@ import css from "./RegisterPage.module.css";
 import { useId } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { registerThunk } from "../../../redux/auth/operations";
+import { registerThunk } from "../../redux/auth/operations";
 
 const initialValues = {
   name: "",
