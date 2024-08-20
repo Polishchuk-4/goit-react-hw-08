@@ -1,13 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchContacts, addContact, deleteContact } from "./operations";
+import {
+  fetchContacts,
+  addContact,
+  deleteContact,
+  editingContact,
+} from "./operations";
 import { logoutThunk } from "../auth/operations";
+import { act } from "react";
 
 const contactsInitialState = {
   items: [],
   isLoading: false,
   error: false,
   isOpenModal: false,
-  editingStates: [],
 };
 
 const handlePending = (state, action) => {
@@ -22,38 +27,13 @@ const handleRejected = (state, action) => {
 const contactsSlice = createSlice({
   name: "contacts",
   initialState: contactsInitialState,
-  reducers: {
-    startEditing: (state, action) => {
-      const contact = state.editingStates.find(
-        (contact) => contact.id === action.payload
-      );
-      contact.editing = true;
-    },
-    stopEditing: (state, action) => {
-      const contact = state.editingStates.find(
-        (contact) => contact.id === action.payload
-      );
-      contact.editing = false;
-    },
-    openModal: (state) => {
-      state.isOpenModal = true;
-    },
-    closeModal: (state) => {
-      state.isOpenModal = false;
-    },
-  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchContacts.pending, handlePending)
       .addCase(fetchContacts.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.isLoading = false;
         state.error = null;
         state.items = action.payload;
-        state.editingStates = action.payload.map((contact) => ({
-          id: contact.id,
-          editing: false,
-        }));
       })
       .addCase(fetchContacts.rejected, handleRejected)
       .addCase(addContact.pending, handlePending)
@@ -61,8 +41,6 @@ const contactsSlice = createSlice({
         state.isLoading = false;
         state.error = null;
         state.items.push(action.payload);
-
-        state.editingStates[action.payload.id] = false;
       })
       .addCase(addContact.rejected, handleRejected)
       .addCase(deleteContact.pending, handlePending)
@@ -73,17 +51,21 @@ const contactsSlice = createSlice({
           (contact) => contact.id === action.payload.id
         );
         state.items.splice(index, 1);
-        state.editingStates.splice(index, 1);
       })
       .addCase(deleteContact.rejected, handleRejected)
       .addCase(logoutThunk.pending, (state, action) => {})
       .addCase(logoutThunk.fulfilled, () => {
         return contactsInitialState;
+      })
+      .addCase(editingContact.fulfilled, (state, action) => {
+        state.error = null;
+        console.log(action.payload);
+        const index = state.items.findIndex(
+          (contact) => contact.id === action.payload.id
+        );
+        state.items[index] = action.payload;
       });
   },
 });
-
-export const { openModal, closeModal, startEditing, stopEditing } =
-  contactsSlice.actions;
 
 export const contactsReducer = contactsSlice.reducer;

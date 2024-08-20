@@ -6,9 +6,6 @@ import toast, { Toaster } from "react-hot-toast";
 export default function ModalDelete({ id, name, number, closeModal }) {
   const dispatch = useDispatch();
 
-  function handleCloseModal() {
-    closeModal();
-  }
   function handleDelete() {
     dispatch(deleteContact(id))
       .unwrap()
@@ -30,19 +27,21 @@ export default function ModalDelete({ id, name, number, closeModal }) {
   return (
     <div className={css.modalOverlay}>
       <div className={css.modal}>
-        Are you sure
-        <br />
-        to delete contact?
+        <h3 className={css.title}>
+          Are you sure
+          <br />
+          to delete contact?
+        </h3>
         <div className={css.contact}>
           <p>Name: {name}</p>
           <p>Number: {number}</p>
         </div>
         <div className={css.btnRow}>
-          <button className={css.btn} onClick={handleCloseModal}>
-            No
+          <button className={css.btn} onClick={closeModal}>
+            Cancel
           </button>
           <button className={css.btn} onClick={handleDelete}>
-            Yes
+            Delete
           </button>
         </div>
       </div>

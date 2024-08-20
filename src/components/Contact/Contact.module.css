@@ -1,0 +1,38 @@
+.contact {
+  width: 300px;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  align-items: center;
+  column-gap: 10px;
+  border: 1px solid black;
+  border-radius: 4px;
+}
+.contactColumn {
+}
+.contactText {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+}
+.contactText:not(:last-child) {
+  margin-bottom: 5px;
+}
+.contactBtn {
+  height: 25px;
+  width: 50px;
+  background-color: rgb(235, 235, 235);
+  border: 1px solid black;
+  border-radius: 2px;
+}
+.contactBtnEdit {
+  margin-left: auto;
+  width: 30px;
+}
+.contactBtn:hover {
+  /* background-color: rgb(194, 194, 194); */
+}
+.contactIconEdit {
+  width: 25px;
+  height: 25px;
+}
