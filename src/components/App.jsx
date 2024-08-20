@@ -9,10 +9,12 @@ import RestrictedRoute from "./RestrictedRoute.jsx";
 import { selectIsRefresh } from "../redux/auth/selectors.js";
 import Loader from "./Loader/Loader.jsx";
 
-const HomePage = lazy(() => import("./page/HomePage/HomePage.jsx"));
-const LoginPage = lazy(() => import("./page/LoginPage/LoginPage.jsx"));
-const RegisterPage = lazy(() => import("./page/RegisterPage/RegisterPage.jsx"));
-const ContactsPage = lazy(() => import("./page/ContactsPage/ContactsPage"));
+const HomePage = lazy(() => import("./pages/HomePage/HomePage.jsx"));
+const LoginPage = lazy(() => import("./pages/LoginPage/LoginPage.jsx"));
+const RegisterPage = lazy(() =>
+  import("./pages/RegisterPage/RegisterPage.jsx")
+);
+const ContactsPage = lazy(() => import("./pages/ContactsPage/ContactsPage"));
 
 export default function App() {
   const dispatch = useDispatch();
